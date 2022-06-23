@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import s from './ContactForm.module.css';
-import shortid from 'shortid';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactSlice';
+import {
+  useAddContactMutation,
+  useGetContactsApiQuery,
+} from 'redux/contactsApi';
 
-export default function ContactForm({ onSubmit }) {
+export default function ContactForm() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
+  const [phone, setPhone] = useState('');
+  const [addContact] = useAddContactMutation();
+  const { data } = useGetContactsApiQuery();
 
   const handleChange = e => {
     const prop = e.currentTarget.name;
@@ -16,38 +17,32 @@ export default function ContactForm({ onSubmit }) {
       case 'name':
         setName(e.currentTarget.value);
         break;
-      case 'number':
-        setNumber(e.currentTarget.value);
+      case 'phone':
+        setPhone(e.currentTarget.value);
         break;
       default:
         throw new Error('Error');
     }
   };
 
-  const handleSubmit = e => {
+  const handleAddContact = async e => {
     e.preventDefault();
-
-    const data = {
-      id: shortid.generate(),
-      name: name,
-      number: number,
-    };
     if (
-      contacts.find(
-        contact => contact.name.toLowerCase() === data.name.toLowerCase()
-      )
+      data.find(contact => contact.name.toLowerCase() === name.toLowerCase())
     ) {
       setName('');
-      setNumber('');
-      return alert(`Number: ${data.name} is already in phonebook`);
+      setPhone('');
+      return alert(`Number: ${name} is already in phonebook`);
     }
-    dispatch(addContact(data));
-    setName('');
-    setNumber('');
+    if (name && phone) {
+      await addContact({ name: name, phone: phone }).unwrap();
+      setName('');
+      setPhone('');
+    }
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit}>
+    <form className={s.form} onSubmit={handleAddContact}>
       <label>
         Name
         <input
@@ -65,10 +60,10 @@ export default function ContactForm({ onSubmit }) {
         Number
         <input
           className={s.inputNumber}
-          value={number}
+          value={phone}
           onChange={handleChange}
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

@@ -1,7 +1,7 @@
+import ApplicationBar from '../components/ApplicationBar/ApplicationBar';
+
 const HomeView = () => {
-  <div>
-    <h1>Welcome!</h1>
-  </div>;
+  return <ApplicationBar />;
 };
 
 export default HomeView;

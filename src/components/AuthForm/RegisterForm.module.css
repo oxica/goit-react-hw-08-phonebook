@@ -1,0 +1,62 @@
+.img {
+  max-width: 1920px;
+  height: 100vh;
+  background-color: #0066db;
+  margin-left: auto;
+  margin-right: auto;
+  background-image: linear-gradient(
+      rgba(47, 48, 58, 0.1),
+      rgba(47, 48, 58, 0.1)
+    ),
+    url(../../img/main.jpg);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.inputThumb {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+}
+
+.input {
+  width: 375px;
+  padding: 24px 12px 7px 12px;
+
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.15px;
+  outline: none;
+  border: none;
+
+  background: rgba(0, 0, 0, 0.09);
+  border-radius: 4px 4px 0px 0px;
+}
+
+.inputText {
+  position: absolute;
+  top: 9px;
+  left: 12px;
+
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.15px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.buttonActive {
+  width: 375px;
+  height: 42px;
+  background: #f50057;
+  color: #ffffff;
+}
+
+.helpfulText {
+  position: absolute;
+  top: 55px;
+  color: red;
+  padding-left: 12px;
+}

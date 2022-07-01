@@ -1,36 +1,29 @@
-import React from 'react';
-import s from './ContactItem.module.css';
 import PropTypes from 'prop-types';
-import { useDeleteContactMutation } from 'redux/contactsApi';
+import { ListItemText, ListItem } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const ContactItem = ({ id, name, phone }) => {
-  const [deleteContact] = useDeleteContactMutation();
+import { useDeleteContactMutation } from 'redux/contactsSlice';
 
-  const handleDeleteContact = async id => {
-    await deleteContact(id).unwrap();
-  };
-
+export const ContactItem = ({ name, number, id }) => {
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
   return (
-    <li id={id} className={s.item}>
-      <p className={s.contact}>
-        {name}............
-        {phone}
-      </p>
-      <button
-        className={s.btn}
-        type="submit"
-        onClick={() => handleDeleteContact(id)}
+    <ListItem>
+      <ListItemText primary={`${name}: ${number}`} />
+      <IconButton
+        disabled={isLoading}
+        onClick={() => deleteContact(id)}
+        edge="end"
+        aria-label="delete"
       >
-        Delete
-      </button>
-    </li>
+        <DeleteIcon />
+      </IconButton>
+    </ListItem>
   );
 };
 
 ContactItem.propTypes = {
-  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
-
-export default ContactItem;

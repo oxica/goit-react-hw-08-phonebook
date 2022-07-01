@@ -1,28 +1,41 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { filterContact } from 'redux/filterSlice';
+import { Box, TextField, Typography } from '@mui/material';
+import { useFilter } from '../../hooks/filterHook';
 
-import s from './Filter.module.css';
+export const Filter = () => {
+  const { filter, changeFilter } = useFilter();
 
-const Filter = () => {
-  const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter.value);
-
-  const filterChange = e => {
-    dispatch(filterContact(e.currentTarget.value));
-  };
   return (
-    <div className={s.filter}>
-      <label className={s.labelFilter}>
-        Filter
-        <input
-          type="name"
-          value={filter}
-          onChange={filterChange}
-          className={s.filterInput}
-        />
-      </label>
-    </div>
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{
+        '& > :not(style)': { m: 2 },
+      }}
+    >
+      <Typography
+        style={{
+          fontSize: '35px',
+          fontWeight: 'bold',
+          lineHeight: '2.8',
+          marginBottom: '10px',
+        }}
+        variant="h3"
+      >
+        Contacts
+      </Typography>
+      <TextField
+        sx={{ width: '50ch' }}
+        type="text"
+        name="filter"
+        value={filter}
+        onChange={event => changeFilter(event.target.value)}
+        id="filled-basic"
+        label="Find contacts by name"
+        variant="filled"
+        required
+      />
+    </Box>
   );
 };
-
-export default Filter;

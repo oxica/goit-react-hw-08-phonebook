@@ -11,6 +11,7 @@ const ContactsView = () => {
       justifyContent="center"
       alignItems="center"
       backgroundColor="#ccffcd"
+      paddingBottom="250px"
     >
       <ContactForm />
       <Filter />
